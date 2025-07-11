@@ -1,0 +1,18 @@
+<h1>Search Results</h1>
+<p>Search query: "{{ query }}"</p>
+
+{% if products %}
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.pdetails }}</p>
+            <p>Price: ₹{{ product.price }}</p>
+            <a href="{% url 'productdetails' product.id %}">View Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No products found matching your query.</p>
+{% endif %}

@@ -1,0 +1,14 @@
+<h2>Update Order Status for Order ID: {{ orders.order_id }}</h2>
+<p>Current Status: {{ orders.current_status }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="status">Change Status:</label>
+    <select name="status">
+        <option value="Order Placed" {% if orders.current_status == "Order Placed" %}selected{% endif %}>Order Placed</option>
+        <option value="Shipped" {% if orders.current_status == "Shipped" %}selected{% endif %}>Shipped</option>
+        <option value="Out for Delivery" {% if orders.current_status == "Out for Delivery" %}selected{% endif %}>Out for Delivery</option>
+        <option value="Delivered" {% if orders.current_status == "Delivered" %}selected{% endif %}>Delivered</option>
+    </select>
+    <button type="submit">Update Status</button>
+</form>

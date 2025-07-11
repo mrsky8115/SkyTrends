@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'main' %}
+<style>
+    /* Sticky Image CSS */
+    .sticky-image {
+        position: sticky;
+        top: 90px;
+        max-height: 500px;
+        object-fit: contain;
+    }
+    /* Related Products */
+    .related-products {
+        margin-top: 50px;
+    }
+    .alert {
+    position: absolute;
+    top: -5px;
+    right: -500px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: px;
+      }
+
+      .auto-hide {
+        position: fixed;
+        z-index: 1000;
+        animation: fadeOut 2s ease-in-out forwards;
+        animation-delay: 2s;
+        opacity: 1;
+    }
+    
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+            display: none;
+        }
+    }
+</style>
+<ul class="navbar-nav ms-auto d-flex align-items-center justify-content-end" style="margin-right: -50px;">
+
+{% if success %}
+               <div class="alert alert-success auto-hide">
+                {{success}}
+               </div> 
+               {% endif %}
+
+               {% if msg %}
+               <div class=" alert alert-info auto-hide">
+                {{ msg }}
+               </div>
+               {% endif %}
+             </div>
+</ul>
+
+<div class="container mt-1">
+    {% for x in products %}
+    <div class="row">
+        <!-- Fixed Product Image -->
+        <div class="col-md-5">
+            <img src="{{ x.pimage.url }}" alt="{{ x.name }}" class="img-fluid sticky-image">
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-7">
+            <h3>{{ x.name }}</h3>
+            <h4 class="text-dark">
+                ₹{{ x.price }}
+                <span class="text-muted ml-2 text-bg-success">
+                    <del><small>₹{{ x.original_price }}</del>
+                    <!-- {{ x.discount_percentage }}% off -->
+                </span>
+                <span class="text-success ms-2">{{ x.discount_percentage }}% OFF</span>
+            </h4>
+            
+
+            <!-- Ratings -->
+            <div class="d-flex align-items-center mb-2">
+                <span class="badge badge-success "></span>
+                <!-- <small class="ml-2 p-2" >4.0 ★★★★ Ratings & Reviews</small> -->
+            </div>
+            
+            <!-- Product Category and Size -->
+            {% if x.cat == 1 %}
+               <p class="cart-text"><strong>Category:  </strong>T-Shirt</p>
+               {% elif x.cat == 2 %}
+               <p class="cart-text"><strong>Category: </strong>Shirt</p>
+               {% elif x.cat == 3 %}
+               <p class="cart-text"><strong>Category: </strong>Jeans</p>
+               {% elif x.cat == 4 %}
+               <p class="cart-text"><strong>Category: </strong>Trouser</p>
+               {% elif x.cat == 5 %}
+               <p class="cart-text"><strong>Category: </strong>Boxer</p>
+               {% elif x.cat == 6 %}
+               <p class="cart-text"><strong>Category: </strong>Polo T-Shirt</p>
+               {% else %}
+               <p class="cart-text"><strong>Category: </strong>OverSized T-Shirts</p>
+               {% endif %}
+
+            
+               {% if x.size == 1 %}
+               <p class="cart-text"><strong>Size:  </strong>S</p>
+               {% elif x.size == 2 %}
+               <p class="cart-text"><strong>Size: </strong>M</p>
+               {% elif x.size == 3 %}
+               <p class="cart-text"><strong>Size: </strong>L</p>
+               {% elif x.size == 4 %}
+               <p class="cart-text"><strong>Size: </strong>XL</p>
+               {% elif x.size == 5 %}
+               <p class="cart-text"><strong>Size: </strong>XXL</p>
+               {% elif x.size == 6 %}
+               <p class="cart-text"><strong>Size: </strong>28</p>
+               {% elif x.size == 7 %}
+               <p class="cart-text"><strong>Size: </strong>30</p>
+               {% else %}
+               <p class="cart-text"><strong>Size: </strong>32</p>
+               {% endif %}
+
+
+            <!-- Product Description -->
+            <p><strong>Description: </strong>{{ x.pdetails }}</p>
+
+            <!-- Action Buttons -->
+            <a href="/addcart/{{ x.id }}" class="btn btn-dark btn-lg mr-3" onclick="msg()" style="color: white;">Add to Cart</a>
+            <a href="/index" class="btn btn-warning btn-lg">All Product</a>
+            <!-- {% if success %}
+               <div class="alert alert-success">
+                {{success}}
+               </div> 
+               {% endif %}
+
+               {% if msg %}
+               <div class=" alert alert-success">
+                {{ msg }}x
+               </div>
+               {% endif %}
+             </div>
+              -->
+
+            <!-- Product Details and Offers -->
+            <div class="mt-4">
+                <h5>Product Details</h5>
+                <ul>
+                    <li>Material: Cotton {{ x.material }}</li>
+                    <li>Brand: Sky Trends {{ x.brand }}</li>
+
+
+                    <li>Color: None {{ x.color }}</li>
+                    <li>Weight: None {{ x.weight }}</li>
+                    <li>Dimensions: None{{ x.dimensions }}</li>
+                </ul>
+
+                <h5 class="mt-3">Available offers</h5>
+                <p><b>Bank Offer</b> 5% Unlimited Cashback on Flipkart Axis Bank Credit CardT&C</p>
+
+                <p><b>Bank Offer</b> 12% off up to ₹1,000 on HDFC Bank Pixel Credit Card EMI on 3 months tenure. Min. Txn Value: ₹7,500T&C</p>
+                    
+                <p><b>Bank Offer</b> 12% off up to ₹1,500 on HDFC Bank Pixel Credit Card EMI on 6m and 9m tenure. Min Txn Value: ₹7,500T&C</p>
+            
+            </div>
+        </div>
+    </div>
+<!-- <div class="related-products mt-5">
+    <h4>Related Products</h4>
+    </div> -->
+</div>
+    {% endfor %}
+</div>
+{% endblock %}

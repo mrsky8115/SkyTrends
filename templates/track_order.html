@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{%  block 'main' %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        /* header {
+            background-color: #f1e8e6;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        } */
+        /* .banner {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 900px;
+            border-bottom: 2px solid #ddd;
+        }
+        .banner img {
+            max-width: 100%;
+            height: auto;
+        } */
+        .containers {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .h22 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 24px;
+        }
+        .pm {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(80% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .Orderbtn {
+            padding: 10px 25px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .Orderbtn:hover {
+            background-color: #44423f;
+        }
+        .order-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .order-info h3 {
+            color: #007BFF;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .thank {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #000;
+            color: #fff;
+            font-size: 14px;
+        }
+        .thank p {
+            color: #d4d2d2;
+        }
+        .thank span {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <!-- <header>
+        <h1>Winter Collection 2024</h1>
+    </header>
+    <div class="banner">
+        <img src="banner.jpg" alt="Winter Collection Banner">
+    </div> -->
+    <div class="containers">
+        <h2 class="h22">Track Your Order or Shipment</h2>
+        <p>Enter your Tracking ID to track the status of your order. You can find the Tracking ID in the Email confirming your order has been shipped.</p>
+        <form method="GET" action="{% url 'track_order' %}">
+            <input  type="text" name="tracking_id" placeholder="Enter Tracking ID">
+            <button class="Orderbtn" type="submit">Track Order</button>
+        </form>
+        {% if order %}
+        <div class="order-info">
+            <h3>Order Status: {{ order.current_status }}</h3>
+            <p>Last Updated: {{ order.last_updated }}</p>
+            <p>Product: {{ order.pid.name }}</p>
+            <p>Quantity: {{ order.qty }}</p>
+        </div>
+        {% elif error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+    <div class="thank">
+        <p class="pm">Thank you for shopping at Sky Trends, <span>keep loving!</span></p>
+    <div>
+</body>
+</html>
+{%  endblock 'main' %}

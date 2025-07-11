@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'main' %}
+
+<style>
+    body {
+        background-color: #f9f9f9;
+        font-family: Arial, sans-serif;
+    }
+
+    .cart-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        gap: 20px;
+    }
+
+    .cart-items, .cart-summary {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-items {
+        width: 65%;
+    }
+
+    .cart-summary {
+        width: 30%;
+    }
+
+    .product-card {
+        display: flex;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #ddd;
+        padding: 15px 0;
+    }
+
+    .product-image img {
+        width: 100px;
+        border-radius: 10px;
+    }
+
+    .product-details {
+        flex-grow: 1;
+        margin-left: 20px;
+    }
+
+    .product-details h5 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .product-details p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .product-actions {
+        text-align: right;
+        margin-left: auto;
+    }
+
+    .product-actions select {
+        width: 50px;
+        margin-right: 10px;
+    }
+
+    .summary-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .price-details p {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .checkout-btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+        margin-top: 20px;
+    }
+
+    .add-address-btn {
+        display: block;
+        margin-bottom: 10px;
+        background-color: #006eff83;
+        color: #fff;
+        padding: 8px;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .cart-container {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-items,
+        .cart-summary {
+            width: 100%;
+        }
+
+        .product-card {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .product-image img {
+            width: 80px;
+        }
+
+        .product-details {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+
+        .product-actions {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+        }
+
+        .price-details p {
+            font-size: 13px;
+        }
+
+        .add-address-btn,
+        .checkout-btn {
+            font-size: 14px;
+        }
+    }
+</style>
+
+{% if data %}
+<!-- Cart Page Layout -->
+<div class="cart-container">
+
+    <!-- Product List -->
+    <div class="cart-items">
+        {% for x in data %}
+        <div class="product-card">
+            <!-- Product Image -->
+            <div class="product-image">
+                <img src="{{ x.pid.pimage.url }}" alt="Product Image">
+            </div>
+            <!-- Product Details -->
+            <div class="product-details">
+                <h5>{{ x.pid.name }}</h5>
+                <p>Price: <b> ₹{{ x.pid.price }} </b>
+                    <del><small>₹{{ x.pid.original_price }}</small></del>
+                    <span class="text-success ms-2">{{ x.pid.discount_percentage }}% Off</span>
+                </p>
+                <p><span style="color: green;">You Save ₹{{ x.pid.saveprice }}</span></p>
+                <p>Total Price: <b> ₹{{ x.total_price }}</b></p>
+            </div>
+            <!-- Actions -->
+            <div class="product-actions">
+                <form method="POST" action="/update-cart/">
+                    {% csrf_token %}
+                    <input type="hidden" name="cart_id" value="{{ x.id }}">
+                    <select name="quantity" onchange="this.form.submit()">
+                        {% for i in "12345" %}
+                            <option value="{{ i }}" {% if i|stringformat:"s" == x.qty|stringformat:"s" %}selected{% endif %}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                <a href="/remove/{{ x.id }}" class="btn btn-sm btn-danger">Remove</a>
+            </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Price Summary -->
+    <div class="cart-summary">
+        <div class="summary-title">PRICE DETAILS ({{ data|length }} items)</div>
+        <div class="price-details">
+            <p>Total MRP (Inc. Taxes): <span>₹ {{ total_mrp|floatformat:2 }}</span></p>
+            <p>Discount: <span style="color: green;">-₹ {{ discount|floatformat:2 }}</span></p>
+            <p>Shipping: <span style="color: green;"><del><small style="color: #000;">₹49</small></del> Free</span></p>
+            <hr>
+            <p><strong>Total Amount:</strong> <span>₹ {{ final_amount|floatformat:2 }}</span></p>
+            <p style="color: green;">You Saved ₹{{ discount|floatformat:2 }} on this order</p>
+        </div><hr>
+
+        <!-- Add New Address -->
+        <a href="/shipping/" class="add-address-btn">Add New Address</a>
+
+        <!-- Display Saved Addresses -->
+        <div class="address-section">
+            {% if addresses %}
+                <h5>Select Shipping Address</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for address in addresses %}
+                    <div class="form-check mb-3 address-option">
+                        <input type="radio" 
+                               name="selected_address" 
+                               value="{{ address.id }}"
+                               id="address_{{ address.id }}"
+                               class="form-check-input"
+                               {% if address.id == selected_address_id %}checked{% endif %}
+                               required>
+                        <label class="form-check-label" for="address_{{ address.id }}">
+                            <strong>{{ address.full_name }}</strong><br>
+                            {{ address.address }}<br>
+                            {{ address.city }}, {{ address.state }} - {{ address.pincode }}<br>
+                            Phone: {{ address.phone }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-dark w-100 mt-3">
+                        Proceed to Payment
+                    </button>
+                </form>
+            {% else %}
+                <div class="alert alert-warning">
+                    <p>No saved addresses found.</p>
+                    <a href="{% url 'shipping' %}" class="btn btn-sm btn-outline-primary">
+                        + Add New Address
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- Empty Cart View -->
+<div class="text-center mt-5" style="width: 100%;">
+    <img src="{% static 'image/empty-cart.png' %}"  alt="Empty Cart" style="width: 200px">
+    <h3>Your Cart is Empty!</h3>
+    <a href="{% url 'index' %}" class="btn btn-dark mt-3"  style="color: white">Continue Shopping</a>
+</div>
+<br>
+<br>
+<br>
+{% endif %}
+
+{% endblock %}

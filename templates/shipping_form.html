@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Address Form</title>
+    <style>
+        /* Your existing styles */
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Shipping Address</h2>
+        <form method="POST" action="{% url 'shipping_address' %}">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- This will render the form fields automatically -->
+            <button type="submit" class="btn btn-dark">Continue</button>
+        </form>
+        <div class="note">
+            <p>Terms & Conditions | Privacy Policy</p>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

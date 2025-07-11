@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block 'main' %}
+{% load static %}
+
+ <style>
+    .sidebar-fixed {
+        position: sticky; 
+        top: 90px;       
+        height: 100%;    
+        overflow-y: auto;
+    }
+    .card-img-top {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .card:hover {
+        transform: scale(1.05); /* Slight zoom effect */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
+        box-shadow: 0 8px 16px rgba(19, 19, 19, 0.2); /* Shadow on hover */
+    }
+    
+    .card-body a:hover {
+        color: rgb(53, 53, 53); /* Keep color black on hover */
+    }
+
+    .size-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 150px; /* Total width for the container */
+      font-family: Arial, sans-serif;
+    }
+
+    .size-label {
+      font-size: 16px;
+      margin-bottom: 10px;
+      width: 100%; /* Takes full width on top */
+    }
+
+    .size-button {
+      padding: 5px 5px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 3px; /* Adds spacing between buttons */
+      flex: 1 1 30%; /* Allows 3 buttons per line */
+      text-align: center;
+    }
+
+    .size-button:hover {
+      border-color: #007BFF;
+      background-color: #f0f8ff;
+    }
+
+    .size-button:focus {
+      outline: none;
+      border-color: #007BFF;
+      background-color: #e6f2ff;
+    }
+
+</style>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Sidebar for Category and Filters -->
+        <div class="col-md-2 text-bg-light p-3 sidebar-fixed" >
+            <h5>Category</h5>
+            <hr>
+            <a class="anchor" href="/catfilter/1"><button class="size-button">T-Shirts</button></a>
+            <a class="anchor" href="/catfilter/6"><button class="size-button">Polos T-Shirts</button></a>
+            <a class="anchor" href="/catfilter/7"><button class="size-button">OverSized T-Shirts</button></a>
+            <a class="anchor" href="/catfilter/2"><button class="size-button">Shirts</button></a>
+            <a class="anchor" href="/catfilter/3"><button class="size-button">Jeans</button></a>
+            <a class="anchor" href="/catfilter/4"><button class="size-button">Trousers</button></a>
+            <a class="anchor" href="/catfilter/5"><button class="size-button">Boxers</button></a>
+            <a class="anchor" href="/index"><button class="size-button">All Cloths</button></a>
+
+
+            <!-- Size Filter -->
+            <h5 class="mt-4">Filter by Size</h5>
+            <hr>
+            <!-- <form action="/index" method="get"> -->
+                <div class="size-container">
+                    <div class="size-label">Top Wear Size:</div>
+                    <a class="anchor" href="/sizefilter/1"><button class="size-button">S</button></a>
+                    <a class="anchor" href="/sizefilter/2"><button class="size-button">M</button></a>
+                    <a class="anchor" href="/sizefilter/3"><button class="size-button">L</button></a>
+                    <a class="anchor" href="/sizefilter/4"><button class="size-button">XL</button></a>
+                    <a class="anchor" href="/sizefilter/5"><button class="size-button">XXL</button></a>
+                  </div>
+            </form>
+
+            <h5 class="mt-4">Filter by Size</h5>
+            <hr>
+            <!-- <form action="/index" method="get">   -->
+                <div class="size-container">
+                    <div class="size-label">Bottom Wear Size:</div>
+                    <a class="anchor" href="/sizefilter/6"><button class="size-button">28</button></a>
+                    <a class="anchor" href="/sizefilter/7"><button class="size-button">30</button></a>
+                    <a class="anchor" href="/sizefilter/8"><button class="size-button">32</button></a>
+                  </div>
+            </form>
+
+             <!-- Price Range Filter -->
+             <h5 class="mt-4">Filter by Price</h5>
+             <hr>
+             <form action="/range" method="get">
+                 <div class="mb-3">
+                     <label for="Input1" class="form-label">Min Price:</label>
+                     <input type="number" name="min" id="Input1" class="form-control" placeholder="Min Price">
+                 </div>
+                 <div class="mb-3">
+                     <label for="Input2" class="form-label">Max Price:</label>
+                     <input type="number" name="max" id="Input2" class="form-control" placeholder="Max Price">
+                 </div>
+                 <button type="submit" class="btn btn-dark w-100">Apply</button>
+             </form>
+ 
+        </div>
+
+        <!-- Product Cards Section -->
+        <div class="col-md-10">
+            <div class="row">
+                {% if products %}
+                    {% for x in products %}
+                        {% if x.is_active %}
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <div class="card shadow-sm border-0">
+                                <a href="/productdetails/{{ x.id }}" style="text-decoration: none;">
+                                    <img src="{{ x.pimage.url }}" class="card-img-top" alt="{{ x.name }}">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ x.name }}</h5>
+                                    <p class="card-text">
+                                        <strong>Price: ₹{{ x.price }}</strong>
+                                        <span class="text-decoration-line-through text-muted ms-2">₹{{ x.original_price }}</span>
+                                        {% if x.discount_percentage > 0 %}
+                                        <span class="text-success ms-2"><b>{{ x.discount_percentage }}% OFF</b></span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <h5>No products found for "{{ query }}"</h5>
+                {% endif %}
+            </div>
+        </div>        
+    </div>
+</div>
+
+{% endblock 'main' %}
