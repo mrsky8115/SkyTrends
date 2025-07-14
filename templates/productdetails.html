@@ -124,7 +124,8 @@
 
             <!-- Action Buttons -->
             <a href="/addcart/{{ x.id }}" class="btn btn-dark btn-lg mr-3" onclick="msg()" style="color: white;">Add to Cart</a>
-            <a href="/index" class="btn btn-warning btn-lg">All Product</a>
+            <a href="/buynow/{{ x.id }}" class="btn btn-warning btn-lg">Buy Now</a>
+
             <!-- {% if success %}
                <div class="alert alert-success">
                 {{success}}
@@ -158,13 +159,12 @@
                 <p><b>Bank Offer</b> 12% off up to ₹1,000 on HDFC Bank Pixel Credit Card EMI on 3 months tenure. Min. Txn Value: ₹7,500T&C</p>
                     
                 <p><b>Bank Offer</b> 12% off up to ₹1,500 on HDFC Bank Pixel Credit Card EMI on 6m and 9m tenure. Min Txn Value: ₹7,500T&C</p>
-            
+            <a href="/index" class="btn btn-outline-dark btn-sm">View All Products</a>
+            <br>
+            <br>
             </div>
         </div>
     </div>
-<!-- <div class="related-products mt-5">
-    <h4>Related Products</h4>
-    </div> -->
 </div>
     {% endfor %}
 </div>

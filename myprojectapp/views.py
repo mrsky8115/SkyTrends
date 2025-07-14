@@ -142,12 +142,30 @@ def addtocart(request, pid):
         
         if n == 1:
             context['msg'] = "Product already exists..."
-            return render(request, 'Productdetails.html', context)
+            return render(request, 'productdetails.html', context)
         else:
             c = cart.objects.create(uid=u[0], pid=p[0])
             c.save()
             context['success'] = "Product added successfully in cart!..."
-            return render(request, 'Productdetails.html', context)
+            return render(request, 'productdetails.html', context)
+    else:
+        return redirect('/login')
+
+def buy_now(request, pid):
+    if request.user.is_authenticated:
+        user = request.user
+        try:
+            prod = product.objects.get(id=pid)
+        except product.DoesNotExist:
+            return redirect('/')
+
+        # Check if product already in cart
+        already_in_cart = cart.objects.filter(uid=user, pid=prod).exists()
+
+        if not already_in_cart:
+            cart.objects.create(uid=user, pid=prod)
+
+        return redirect('/viewcart')  # Redirect to cart page
     else:
         return redirect('/login')
 
@@ -534,96 +552,6 @@ def search_products(request):
     ) if query else []  # Query blank हो तो empty list
     return render(request, 'search_results.html', {'products': products, 'query': query})
 
-
-from .models import cart, orders
-from django.views.decorators.csrf import csrf_exempt
-
-# def makepayment(request):
-#     # Get user's cart items
-#     cart_items = cart.objects.filter(uid=request.user.id)
-#     total_amount = sum(item.qty * item.pid.price for item in cart_items)
-
-#     # Convert to paise (Razorpay requires amount in smallest currency unit)
-#     total_amount_in_paise = int(total_amount * 100)
-
-#     # Initialize Razorpay client
-#     client = razorpay.Client(auth=("rzp_test_vsTp3lR9NURf3n", "nUDBVNp2J6rNEvxsem9OE2dg"))
-    
-#     # Create Razorpay order
-#     payment = client.order.create({
-#         "amount": total_amount_in_paise,
-#         "currency": "INR",
-#         "receipt": f"order_{request.user.id}",
-#         "payment_capture": 1  # Auto-capture payment
-#     })
-
-#     # Store payment ID in session
-#     request.session['razorpay_order_id'] = payment['id']
-#     request.session.save()
-
-#     context = {
-#         'payment': payment,
-#         'cart_items': cart_items,
-#         'total_amount': total_amount,
-#     }
-#     return render(request, 'pay.html', context)
-
-
-
-# @csrf_exempt
-# def confirm_order(request):
-#     if request.method == 'POST':
-#         try:
-#             # Get payment details
-#             razorpay_payment_id = request.POST.get('razorpay_payment_id')
-#             razorpay_order_id = request.POST.get('razorpay_order_id')
-#             razorpay_signature = request.POST.get('razorpay_signature')
-
-#             # Verify payment
-#             client = razorpay.Client(auth=("rzp_test_vsTp3lR9NURf3n", "nUDBVNp2J6rNEvxsem9OE2dg"))
-#             params_dict = {
-#                 'razorpay_order_id': razorpay_order_id,
-#                 'razorpay_payment_id': razorpay_payment_id,
-#                 'razorpay_signature': razorpay_signature
-#             }
-#             client.utility.verify_payment_signature(params_dict)
-
-#             # Get user and cart items
-#             user = request.user
-#             cart_items = cart.objects.filter(uid=user)
-            
-#             # Get selected address from session
-#             address_id = request.session.get('selected_address_id')
-#             address = ShippingDetail.objects.get(id=address_id, user=user)
-
-#             # Create orders
-#             for item in cart_items:
-#                 orders.objects.create(
-#                     order_id=razorpay_order_id,
-#                     pid=item.pid,
-#                     uid=user,
-#                     qty=item.qty,
-#                     tracking_id=str(uuid.uuid4())[:8],
-#                     current_status="Order Placed",
-#                     shipping_address=address  # Save address with order
-#                 )
-
-#             # Clear cart
-#             cart_items.delete()
-#             request.session.pop('selected_address_id', None)
-
-#             # Send email
-#             sendusermail(request)
-            
-#             messages.success(request, "Order placed successfully!")
-#             return redirect('home')
-
-#         except Exception as e:
-#             print(f"Error in confirm_order: {str(e)}")
-#             messages.error(request, "Order failed. Please contact support.")
-#             return redirect('viewcart')
-#     else:
-#         return HttpResponse("Invalid request method")
 
 
 def catfilter(request,cv):

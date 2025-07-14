@@ -61,40 +61,40 @@
       border-color: #007BFF;
       background-color: #e6f2ff;
     }
+    
 
 </style>
 
 <div class="container mt-4">
     <div class="row">
         <!-- Sidebar for Category and Filters -->
-        <div class="col-md-2 text-bg-light p-3 sidebar-fixed" >
+        <div class="col-12 col-md-2 sidebar-fixed mb-3 mb-md-0">
+            <div id="mobileFilter" class="text-bg-light p-3 d-none d-md-block" style="z-index: 999; background: white;">
+                <div class="d-md-none text-end">
+                    <button class="btn btn-sm btn-danger mb-2" id="closeFilterBtn">✕</button>
+                </div>
             <h5>Category</h5>
             <hr>
             <a class="anchor" href="/catfilter/1"><button class="size-button">T-Shirts</button></a>
-            <a class="anchor" href="/catfilter/6"><button class="size-button">Polos T-Shirts</button></a>
-            <a class="anchor" href="/catfilter/7"><button class="size-button">OverSized T-Shirts</button></a>
+            <a class="anchor" href="/catfilter/6"><button class="size-button">Polos</button></a>
+            <a class="anchor" href="/catfilter/7"><button class="size-button">OverSized</button></a>
             <a class="anchor" href="/catfilter/2"><button class="size-button">Shirts</button></a>
             <a class="anchor" href="/catfilter/3"><button class="size-button">Jeans</button></a>
-            <a class="anchor" href="/catfilter/4"><button class="size-button">Trousers</button></a>
-            <a class="anchor" href="/catfilter/5"><button class="size-button">Boxers</button></a>
+            <a class="anchor" href="/catfilter/4"><button class="size-button">Trouser</button></a>
+            <a class="anchor" href="/catfilter/5"><button class="size-button">Boxer</button></a>
             <a class="anchor" href="/index"><button class="size-button">All Cloths</button></a>
-
 
             <!-- Size Filter -->
             <h5 class="mt-4">Filter by Size</h5>
             <hr>
-            <!-- <form action="/index" method="get"> -->
                 <div class="size-container">
                     <div class="size-label">Top Wear Size:</div>
                     <a class="anchor" href="/sizefilter/1"><button class="size-button">S</button></a>
                     <a class="anchor" href="/sizefilter/2"><button class="size-button">M</button></a>
                     <a class="anchor" href="/sizefilter/3"><button class="size-button">L</button></a>
                     <a class="anchor" href="/sizefilter/4"><button class="size-button">XL</button></a>
-                    <a class="anchor" href="/sizefilter/5"><button class="size-button">XXL</button></a>
+                    <!-- <a class="anchor" href="/sizefilter/5"><button class="size-button">XXL</button></a> -->
                   </div>
-            </form>
-
-            <h5 class="mt-4">Filter by Size</h5>
             <hr>
             <!-- <form action="/index" method="get">   -->
                 <div class="size-container">
@@ -103,12 +103,14 @@
                     <a class="anchor" href="/sizefilter/7"><button class="size-button">30</button></a>
                     <a class="anchor" href="/sizefilter/8"><button class="size-button">32</button></a>
                   </div>
-            </form>
 
              <!-- Price Range Filter -->
              <h5 class="mt-4">Filter by Price</h5>
              <hr>
-             <form action="/range" method="get">
+             <a href="/sort/0" class="anchor"><button class="size-button">Low to High</button></a>
+             <a href="/sort/1" class="anchor"><button class="size-button">High to Low</button></a>
+
+             <!-- <form action="/range/" method="get">
                  <div class="mb-3">
                      <label for="Input1" class="form-label">Min Price:</label>
                      <input type="number" name="min" id="Input1" class="form-control" placeholder="Min Price">
@@ -118,17 +120,22 @@
                      <input type="number" name="max" id="Input2" class="form-control" placeholder="Max Price">
                  </div>
                  <button type="submit" class="btn btn-dark w-100">Apply</button>
-             </form>
- 
+             </form> -->
+            </div>
         </div>
 
         <!-- Product Cards Section -->
-        <div class="col-md-10">
+        <div class=" col-12 col-md-10">
+        <!-- Mobile Filter Toggle Button -->
+            <div class="d-md-none text-center mb-3">
+            <button class="btn btn-outline-dark" id="toggleFilterBtn">☰ Filter</button>
+            </div>
+
             <div class="row">
                 {% if products %}
                     {% for x in products %}
                         {% if x.is_active %}
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="col-6 col-lg-4 col-md-6 col-sm-6 mb-4">
                             <div class="card shadow-sm border-0">
                                 <a href="/productdetails/{{ x.id }}" style="text-decoration: none;">
                                     <img src="{{ x.pimage.url }}" class="card-img-top" alt="{{ x.name }}">
@@ -154,5 +161,20 @@
         </div>        
     </div>
 </div>
+<script>
+    const toggleBtn = document.getElementById("toggleFilterBtn");
+    const filterBox = document.getElementById("mobileFilter");
+    const closeBtn = document.getElementById("closeFilterBtn");
 
-{% endblock 'main' %}
+    if (toggleBtn && filterBox && closeBtn) {
+        toggleBtn.addEventListener("click", () => {
+            filterBox.classList.remove("d-none");
+        });
+
+        closeBtn.addEventListener("click", () => {
+            filterBox.classList.add("d-none");
+        });
+    }
+</script>
+
+{% endblock  %}

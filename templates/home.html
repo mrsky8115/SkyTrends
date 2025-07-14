@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-
-{%  block 'main' %}
-
 {% load static %}
-    <!-- Start Auto Slider -->
+{% block 'main' %}
+
+<!-- Start Auto Slider -->
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -11,142 +10,133 @@
         </div>
         <div class="carousel-item">
             <a href="/index"><img src="{% static 'image/s3.jpg' %}" class="d-block w-100" alt="Jeans"></a>
-        </div>b
+        </div>
         <div class="carousel-item">
             <a href="/index"><img src="{% static 'image/Slider4.jpg' %}" class="d-block w-100" alt="Jeans"></a>
-        </div>b  
+        </div>
     </div>
 </div>
 <!-- End Slider -->
+
 <br><br>
+<!-- Discount Banner -->
+<a href="/index"><img src="{% static 'image/discount.webp' %}" class="img-fluid w-100" alt="Customized Clothing"></a>
 
-<!-- Start Customized Clothing Section -->
-<a href="/index"><img src="{% static 'image/discount.webp' %}" class="img-fluid" alt="Customized Clothing"></a>
-<br>
-<br>
-<h2 style="text-align: center; color: black;">GET WINTER READY!</h2>
-<h6 style="text-align: center; color: black;">Exclusive designs for this season</h6>
-<!-- <a href="#"><img src="{% static 'image/combo1.jpg' %}" class="img-fluid" alt="Customized Clothing"></a> -->
+<br><br>
+<h2 class="text-center text-dark">GET WINTER READY!</h2>
+<h6 class="text-center text-dark">Exclusive designs for this season</h6>
 
-<!--Start here winter sale-->
+<!-- Winter Sale Section -->
 <div class="container text-center">
-    <div class="row" align="center">
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
                 <a href="productdetails/8"><img src="{% static 'image/ds2.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="productdetails/9"><img src="{% static 'image/d1.jpg'' %}" class="card-img-top" alt="Shirts"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="productdetails/9"><img src="{% static 'image/d1.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="productdetails/10"><img src="{% static 'image/wint3.jpg'' %}" class="card-img-top" alt="Jeans"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="productdetails/10"><img src="{% static 'image/wint3.jpg' %}" class="card-img-top" alt="Jeans"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="productdetails/11"><img src="{% static 'image/winter5.jpg'' %}" class="card-img-top" alt="Trousers"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="productdetails/11"><img src="{% static 'image/winter5.jpg' %}" class="card-img-top" alt="Trousers"></a>
             </div>
         </div>
     </div>
 </div>
-<!--End  Here Winter Sale-->
-<br><br>
-<!-- End Customized Clothing -->
 
-<!-- Start Trending Collections Section -->
-<h4 style="text-align: center; color: black;"><b>TRENDING COLLECTIONS</b></h4>
+<br><br>
+<!-- Trending Collections -->
+<h4 class="text-center text-dark"><b>TRENDING COLLECTIONS</b></h4>
 <br>
 
-<!-- Start Cards for Garment Categories -->
 <div class="container text-center">
-    <div class="row" align="center">
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-6 col-md-4 mb-3">
+            <div class="card">
                 <a href="/catfilter/2"><img src="{% static 'image/Shirt_home.webp' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+        <div class="col-6 col-md-4 mb-3">
+            <div class="card">
                 <a href="/catfilter/3"><img src="{% static 'image/Jeans_home.webp' %}" class="card-img-top" alt="Jeans"></a>
             </div>
         </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+        <div class="col-6 col-md-4 mb-3 mx-auto">
+            <div class="card">
                 <a href="/catfilter/1"><img src="{% static 'image/T-shirt_home.webp' %}" class="card-img-top" alt="Trousers"></a>
             </div>
         </div>
     </div>
 </div>
+
 <br>
-<!-- End Cards for Garment Categories -->
-<!-- Gift Section -->
-<a href="/index"><img src="{% static 'image/Gift.jpg' %}" class="img-fluid" style="margin-left:6.5%; margin-right: 0%;" alt="Featured Collection"></a>
-<br>
-<!-- End -->
+<a href="/index"><img src="{% static 'image/Gift.jpg' %}" class="img-fluid w-100" alt="Featured Collection"></a>
 <br><br>
-<!--Start here TOPWEAR-->
-<h4 style="text-align: center; color: black;"><b>TOPWEAR</b></h4>
-<h6 style="text-align: center; color: rgb(129, 126, 126);"><b>Up to 70% off</b></h6>
+
+<!-- TOPWEAR -->
+<h4 class="text-center text-dark"><b>TOPWEAR</b></h4>
+<h6 class="text-center text-secondary"><b>Up to 70% off</b></h6>
 <div class="container text-center">
-    <div class="row" align="center">
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
                 <a href="/catfilter/6"><img src="{% static 'image/tw1.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/7"><img src="{% static 'image/tw3.jpg'' %}" class="card-img-top" alt="Shirts"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/7"><img src="{% static 'image/tw3.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/1"><img src="{% static 'image/tw4.jpg'' %}" class="card-img-top" alt="Jeans"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/1"><img src="{% static 'image/tw4.jpg' %}" class="card-img-top" alt="Jeans"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/2"><img src="{% static 'image/tw2.jpg'' %}" class="card-img-top" alt="Trousers"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/2"><img src="{% static 'image/tw2.jpg' %}" class="card-img-top" alt="Trousers"></a>
             </div>
         </div>
     </div>
 </div>
-<br>
-<br>
-<!--End  Here BOTTOMWEAR-->
 
-<h4 style="text-align: center; color: black;"><b>BOTTOMWEAR</b></h4>
-<h6 style="text-align: center; color: rgb(129, 126, 126);"><b>Up to 70% off</b></h6>
+<br><br>
+<!-- BOTTOMWEAR -->
+<h4 class="text-center text-dark"><b>BOTTOMWEAR</b></h4>
+<h6 class="text-center text-secondary"><b>Up to 70% off</b></h6>
 <div class="container text-center">
-    <div class="row" align="center">
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
                 <a href="/catfilter/4"><img src="{% static 'image/bw1.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/3"><img src="{% static 'image/bw3.jpg'' %}" class="card-img-top" alt="Shirts"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/3"><img src="{% static 'image/bw3.jpg' %}" class="card-img-top" alt="Shirts"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/4"><img src="{% static 'image/bw4.jpg'' %}" class="card-img-top" alt="Jeans"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/4"><img src="{% static 'image/bw4.jpg' %}" class="card-img-top" alt="Jeans"></a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <a href="/catfilter/3"><img src="{% static 'image/bw2.jpg'' %}" class="card-img-top" alt="Trousers"></a>
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card">
+                <a href="/catfilter/3"><img src="{% static 'image/bw2.jpg' %}" class="card-img-top" alt="Trousers"></a>
             </div>
         </div>
     </div>
 </div>
+
 <br><br>
-<!--End  Here BOTTOMWEAR-->
-</body>
-</html>
-{% endblock 'main' %}
+{% endblock %}

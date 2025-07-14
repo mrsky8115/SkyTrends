@@ -4,7 +4,7 @@ from myproject import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Changed to root path
+    path('', views.home, name='home'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('about-us/', views.about_view, name='about'),
     path('index/', views.index, name='index'),
@@ -17,12 +17,13 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('productdetails/<int:pid>/', views.productdetails, name='productdetails'),
     path('addcart/<int:pid>/', views.addtocart, name='addtocart'),
+    path('buynow/<int:pid>/', views.buy_now, name='buy_now'),
     path('viewcart/', views.viewcart, name='viewcart'),
     path('remove/<cid>/', views.remove, name='remove'),
     path('remove-address/<int:address_id>/', views.remove_address, name='remove_address'),
     path('update_address/<int:aid>/', views.update_address, name='update_address'),
     path('updateqty/<qv>/<cid>/', views.updateqty, name='updateqty'),
-    path('placeorder/', views.placeorder, name='placeorder'),
+    # path('placeorder/', views.placeorder, name='placeorder'),
     path('cancel_order/<int:order_id>/', views.cancel_order, name='cancel_order'),
     path('search/', views.search_products, name='search'),
     path('update-cart/', views.update_cart, name='update_cart'),
